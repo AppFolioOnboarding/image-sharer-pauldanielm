@@ -30,7 +30,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
-    assert_equal(['test1', 'test2'], Image.last.tag_list)
+    assert_equal(%w[test1 test2], Image.last.tag_list)
   end
 
   test 'invalid url renders new image page with error' do
@@ -44,11 +44,13 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'renders image correctly in show' do
-    image = Image.create!(image_url: 'https://learn.appfolio.com/apm/www/images/apm-logo-v2.png')
+    image = Image.create!(image_url: 'https://learn.appfolio.com/apm/www/images/apm-logo-v2.png',
+                          tag_list: 'test1, test2')
     get image_path(image.id)
 
     assert_response :ok
     assert_select 'img', src: image.image_url
+    assert_select 'p.card-text', text: 'test1, test2'
   end
 
   test 'should get index' do
@@ -73,5 +75,15 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select 'img', src: Image.first.image_url
+  end
+
+  test 'cards in index page have text tags' do
+    image = Image.create!(image_url: 'https://test01.png',
+                          tag_list: 'test1')
+    get images_path
+
+    assert_response :success
+    assert_select 'div.card img.card-img', src: image.image_url
+    assert_select 'div.card p.card-text', text: image.tag_list.first
   end
 end
