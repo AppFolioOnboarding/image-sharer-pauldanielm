@@ -38,4 +38,28 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
     assert_select 'img', src: image.image_url
   end
+
+  test 'should get index' do
+    get images_path
+
+    assert_response :success
+    assert_select 'h1', 'Image Index'
+  end
+
+  test 'index page contains as many images as image table' do
+    get images_path
+
+    assert_response :success
+    assert_select 'img', count: Image.count
+  end
+
+  test 'first image in index page has first available id in table' do
+    Image.create!(image_url: 'https://test01.png')
+    Image.create!(image_url: 'https://test02.jpg')
+    Image.create!(image_url: 'https://test03.jpg')
+    get images_path
+
+    assert_response :success
+    assert_select 'img', src: Image.first.image_url
+  end
 end
