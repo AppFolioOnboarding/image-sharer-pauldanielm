@@ -8,7 +8,7 @@ class ImagesController < ApplicationController
   end
 
   def create
-    @image = Image.new(image_url: params[:image][:image_url])
+    @image = Image.new(params.require(:image).permit(:image_url, :tag_list))
 
     if @image.save
       redirect_to image_path(@image)

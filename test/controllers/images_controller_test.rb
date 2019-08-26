@@ -6,6 +6,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
     assert_select "input[value='Create Image']"
+    assert_select "input[id='image_tag_list']"
   end
 
   test 'valid url gets put into database' do
@@ -19,6 +20,17 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to image_path(Image.last.id)
     assert_equal 'https://learn.appfolio.com/apm/www/images/apm-logo-v2.png', Image.last.image_url
+  end
+
+  test 'image can be tagged via form' do
+    post images_path, params: {
+      image: {
+        image_url: 'https://learn.appfolio.com/apm/www/images/apm-logo-v2.png',
+        tag_list: 'test1, test2'
+      }
+    }
+
+    assert_equal(['test1', 'test2'], Image.last.tag_list)
   end
 
   test 'invalid url renders new image page with error' do
