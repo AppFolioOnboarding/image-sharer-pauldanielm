@@ -52,4 +52,14 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select 'img', count: Image.count
   end
+
+  test 'first image in index page has first available id in table' do
+    Image.create!(image_url: 'https://test01.png')
+    Image.create!(image_url: 'https://test02.jpg')
+    Image.create!(image_url: 'https://test03.jpg')
+    get images_path
+
+    assert_response :success
+    assert_select 'img', src: Image.first.image_url
+  end
 end
