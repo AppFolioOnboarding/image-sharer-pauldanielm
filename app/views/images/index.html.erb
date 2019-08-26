@@ -1,5 +1,5 @@
 <h1>Image Index</h1>
 
 <% @image_list.each do |image| %>
-  <%= image_tag(image.image_url) %>
+  <%= image_tag(image.image_url, class: 'preview-image') %>
 <% end %>
