@@ -1,1 +1,8 @@
-<%= image_tag(@image.image_url, class: 'preview-image') %>
+<div class="card preview-image" >
+  <div class="card-body">
+    <p class="card-text">
+      <%= @image.tag_list %>
+    </p>
+  </div>
+  <%= image_tag(@image.image_url, class: 'card-img') %>
+</div>

@@ -6,6 +6,7 @@ AllCops:
     - 'vendor/**/*'
     - 'node_modules/**/*'
     - 'bin/*'
+    - 'db/migrate/*'
   TargetRubyVersion: 2.5
 
 Layout/IndentFirstArrayElement:

@@ -1,5 +1,17 @@
-<h1>Image Index</h1>
-
-<% @image_list.each do |image| %>
-  <%= image_tag(image.image_url, class: 'preview-image') %>
-<% end %>
+<div class="container-fluid">
+  <h1>Image Index</h1>
+  <div class="row">
+  <% @image_list.each do |image| %>
+      <div class="col preview-image">
+      <div class="card" >
+        <div class="card-body">
+          <p class="card-text">
+            <%= image.tag_list %>
+          </p>
+        </div>
+        <%= image_tag(image.image_url, class: 'card-img') %>
+      </div>
+      </div>
+  <% end %>
+  </div>
+</div>
