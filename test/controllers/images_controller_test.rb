@@ -30,6 +30,8 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
+    follow_redirect!
+    assert_select 'div.alert', text: 'Successfully added new image.'
     assert_equal(%w[test1 test2], Image.last.tag_list)
   end
 
@@ -40,6 +42,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
+    assert_select 'div.alert', text: "Couldn't add image"
     assert_select "span[class='error']", 'Input must be a valid URI'
   end
 

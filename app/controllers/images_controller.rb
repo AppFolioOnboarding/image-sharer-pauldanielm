@@ -15,8 +15,10 @@ class ImagesController < ApplicationController
     @image = Image.new(params.require(:image).permit(:image_url, :tag_list))
 
     if @image.save
+      flash[:success] = 'Successfully added new image.'
       redirect_to image_path(@image)
     else
+      flash[:error] = "Couldn't add image"
       render(new_image_path)
     end
   end

@@ -1,3 +1,7 @@
+<% if flash[:error] %>
+  <div class="alert alert-danger"><%= flash[:error] %></div>
+<% end %>
+
 <%= simple_form_for @image do |f| %>
   <%= f.input :image_url %>
   <%= f.input :tag_list %>
