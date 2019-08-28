@@ -121,4 +121,29 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select 'img', count: 0
   end
+
+  test 'delete image link exists' do
+    image = Image.create!(image_url: 'https://test01.png')
+    get images_path
+
+    assert_response :success
+    assert_select 'a[href=?]', image_path(image.id)
+  end
+
+  test 'successful delete flashes success message, image no longer displayed' do
+    image = Image.create!(image_url: 'https://test01.png')
+
+    delete image_path(image.id)
+
+    follow_redirect!
+    assert_select 'div.alert', text: 'Deleted image successfully'
+    assert_select 'img', count: 0
+  end
+
+  test 'delete nonexistent id flashes error message' do
+    delete image_path(1)
+
+    follow_redirect!
+    assert_select 'div.alert', text: 'Failed to delete image'
+  end
 end

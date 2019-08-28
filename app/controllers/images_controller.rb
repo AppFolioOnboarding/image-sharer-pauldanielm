@@ -26,4 +26,16 @@ class ImagesController < ApplicationController
   def show
     @image = Image.find(params[:id])
   end
+
+  def destroy
+    begin
+      @image = Image.find(params[:id])
+      @image.destroy
+      flash[:success] = 'Deleted image successfully'
+    rescue ActiveRecord::RecordNotFound
+      flash[:error] = 'Failed to delete image'
+    end
+
+    redirect_to(images_path)
+  end
 end
