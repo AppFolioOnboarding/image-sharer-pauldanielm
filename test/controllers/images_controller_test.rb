@@ -50,7 +50,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
     assert_select 'img', src: image.image_url
-    assert_select 'p.card-text', text: 'test1, test2'
+    assert_select 'p.card-text a', href: images_path(tag: image.tag_list.first)
   end
 
   test 'should get index' do
@@ -85,5 +85,32 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select 'div.card img.card-img', src: image.image_url
     assert_select 'div.card p.card-text', text: image.tag_list.first
+  end
+
+  test 'cards in index page tags are links to filter index page' do
+    image = Image.create!(image_url: 'https://test01.png',
+                          tag_list: 'test1')
+    Image.create!(image_url: 'https://test02.png',
+                  tag_list: 'test1, test2')
+    Image.create!(image_url: 'https://test03.png',
+                  tag_list: 'test2')
+    get images_path(tag: 'test1')
+
+    assert_response :success
+    assert_select 'div.card a', href: images_path(tag: image.tag_list.first)
+    assert_select 'img', count: 2
+  end
+
+  test 'searching for nonexistent tag returns no images' do
+    Image.create!(image_url: 'https://test01.png',
+                  tag_list: 'test1')
+    Image.create!(image_url: 'https://test02.png',
+                  tag_list: 'test1, test2')
+    Image.create!(image_url: 'https://test03.png',
+                  tag_list: 'test2')
+    get images_path(tag: 'nonexistent tag')
+
+    assert_response :success
+    assert_select 'img', count: 0
   end
 end
