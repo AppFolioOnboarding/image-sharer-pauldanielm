@@ -146,4 +146,11 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_select 'div.alert', text: 'Failed to delete image'
   end
+
+  test 'show nonexistent id flashes error message' do
+    get image_path(id: 1)
+
+    follow_redirect!
+    assert_select 'div.alert', text: "Couldn't find image with id: 1"
+  end
 end

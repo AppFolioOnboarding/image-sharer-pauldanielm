@@ -25,6 +25,9 @@ class ImagesController < ApplicationController
 
   def show
     @image = Image.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    flash[:error] = "Couldn't find image with id: #{params[:id]}"
+    redirect_to(images_path)
   end
 
   def destroy
