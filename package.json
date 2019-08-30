@@ -6,7 +6,8 @@
     "coffeescript": "1.12.7",
     "prop-types": "^15.6.1",
     "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react-dom": "^16.8.4",
+    "reactstrap": "^8.0.1"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.4.0",
@@ -33,6 +34,7 @@
   "scripts": {
     "lint": "eslint app/javascript",
     "lint:fix": "eslint app/javascript --fix",
-    "test": "mocha --recursive --compilers js:@babel/register --require app/javascript/testHelpers.js --require ignore-styles app/javascript/**/test"
+    "test": "mocha --recursive --compilers js:@babel/register --require app/javascript/testHelpers.js --require ignore-styles app/javascript/**/test",
+    "test:watch": "mocha --recursive --watch --compilers js:@babel/register --require app/javascript/testHelpers.js --require ignore-styles app/javascript/**/test"
   }
 }
